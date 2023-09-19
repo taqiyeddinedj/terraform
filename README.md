@@ -1,4 +1,4 @@
-#Terraform & Docker Nginx Deployment
+# Terraform & Docker Nginx Deployment
 This repository contains Ansible and Terraform code to automate the deployment of an Nginx web server in a Docker container.
 
 ## Prerequisites
