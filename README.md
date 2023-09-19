@@ -6,8 +6,11 @@ This repository contains Ansible and Terraform code to automate the deployment o
 2. Ansible installed
 3. Terraform installed (or will be installed through the Ansible playbook)
 4. Docker installed
-    ```sudo apt-get update
-        sudo apt-get install docker.io````
+
+    ```
+    sudo apt-get update
+    sudo apt-get install docker.io
+    ````
 
 ## Overview
 The Ansible playbook takes care of:
