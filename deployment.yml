@@ -1,0 +1,54 @@
+---
+- name: Deploy an nginx webserer with terraform
+  hosts:  localhost
+  tasks:
+    - name: Update apt cache
+      become: true
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Add Terraform key
+      become: true
+      apt_key:
+        url: "https://apt.releases.hashicorp.com/gpg"
+        state: present
+      
+    - name: Add Terraform repo
+      become: true
+      apt_repository:
+        repo: "deb [arch=amd64] https://apt.releases.hashicorp.com focal main"
+        state: present
+    
+    - name: Install Packages
+      become: true
+      package:
+        name:
+        - software-properties-common
+        - gnupg
+        - curl
+        - terraform
+        - docker.io
+
+    - name: Add user tp docker group
+      become: true
+      user:
+        name: "{{ lookup('env', 'USER') }}"
+        append: true
+        groups: docker
+    
+    - name: Add repository 
+      git:
+        repo: "https://github.com/taqiyeddinedj/terraform.git"
+        dest: "{{ lookup('env','HOME') }}/terraform"
+
+    - name: Initialize Terraform
+      command:
+        cmd: terraform init
+        chdir: "{{ lookup('env','HOME') }}/terraform"
+    
+    - name: Apply Terraform configuration
+      command:
+        cmd: terraform apply -auto-approve
+        chdir: "{{ lookup('env','HOME') }}/terraform"
+
